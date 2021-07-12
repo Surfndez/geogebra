@@ -3962,6 +3962,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
+	public boolean isSuite() {
+		return false;
+	}
+
 	/**
 	 * Is running mebis app.
 	 *

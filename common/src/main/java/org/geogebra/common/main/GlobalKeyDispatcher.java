@@ -492,7 +492,7 @@ public abstract class GlobalKeyDispatcher {
 																// {
 				app.getGuiManager().setShowView(
 						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
-						App.VIEW_EUCLIDIAN);
+						App.VIEW_EUCLIDIAN, false);
 				consumed = true;
 
 			} else { // make sure not triggered on
@@ -509,22 +509,24 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
-			if (isShiftDown && keyboardShortcutsEnabled()
-					&& app.getGuiManager() != null) { // ||
+			if (!(app.isUnbundled() || app.isSuite())) {
+				if (isShiftDown && keyboardShortcutsEnabled()
+						&& app.getGuiManager() != null) { // ||
 																// event.isAltDown())
 																// {
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
-						App.VIEW_EUCLIDIAN2);
-				consumed = true;
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
+							App.VIEW_EUCLIDIAN2);
+					consumed = true;
 
-			} else { // make sure not triggered on
-				// AltGr
-				// Ctrl-2: large font size and thicker lines for projectors
-				// etc
-				int fontSize = Math.min(32, app.getFontSize() + 4);
-				changeFontsAndGeoElements(app, fontSize, false, true);
-				consumed = true;
+				} else { // make sure not triggered on
+					// AltGr
+					// Ctrl-2: large font size and thicker lines for projectors
+					// etc
+					int fontSize = Math.min(32, app.getFontSize() + 4);
+					changeFontsAndGeoElements(app, fontSize, false, true);
+					consumed = true;
+				}
 			}
 			break;
 
@@ -533,22 +535,24 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-3 from working (^ on
 			// Croatian keyboard)
-			if (isShiftDown && keyboardShortcutsEnabled()
-					&& app.getGuiManager() != null
-					&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
+			if (!(app.isUnbundled() || app.isSuite())) {
+				if (isShiftDown && keyboardShortcutsEnabled()
+						&& app.getGuiManager() != null
+						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
 																	// event.isAltDown())
 																	// {
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
-						App.VIEW_EUCLIDIAN3D);
-				consumed = true;
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
+							App.VIEW_EUCLIDIAN3D);
+					consumed = true;
 
-			} else { // make sure not triggered on
-				// AltGr
-				// Ctrl-3: set black/white mode printing and visually
-				// impaired users
-				changeFontsAndGeoElements(app, app.getFontSize(), true, true);
-				consumed = true;
+				} else { // make sure not triggered on
+					// AltGr
+					// Ctrl-3: set black/white mode printing and visually
+					// impaired users
+					changeFontsAndGeoElements(app, app.getFontSize(), true, true);
+					consumed = true;
+				}
 			}
 			break;
 
@@ -571,7 +575,8 @@ public abstract class GlobalKeyDispatcher {
 			if (isShiftDown) {
 				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
 						&& app.getGuiManager() != null
-						&& app.supportsView(App.VIEW_CAS)) {
+						&& app.supportsView(App.VIEW_CAS) && !(app.isUnbundled() || app
+						.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_CAS),
 							App.VIEW_CAS);
@@ -603,11 +608,11 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 		case P:
-
 			if (isShiftDown) {
 				// toggle Probability View
 				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null) {
+						&& app.getGuiManager() != null && !(app.isUnbundled() || app
+						.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_PROBABILITY_CALCULATOR),
