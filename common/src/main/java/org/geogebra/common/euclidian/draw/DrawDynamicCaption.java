@@ -49,7 +49,11 @@ public class DrawDynamicCaption {
 		drawCaption.draw(g2);
 	}
 
-	private void measure(GGraphics2D g2) {
+	/**
+	 * measure label
+	 * @param g2 canvas
+	 */
+	public void measure(GGraphics2D g2) {
 		drawCaption.xLabel = Integer.MIN_VALUE;
 		drawCaption.yLabel = Integer.MIN_VALUE;
 
