@@ -36,7 +36,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -45,7 +44,6 @@ import javax.swing.Timer;
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
 import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
-import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
@@ -74,6 +72,7 @@ public class MathFieldD extends JLabel implements MathField {
 	
 	private MathFieldInternal mathFieldInternal;
 	private int cursorX;
+	private int scrollX = 0;
 
 	public MathFieldD(SyntaxAdapter syntaxAdapter, Runnable repaint) {
 		SelectionBox.touchSelection = false;
@@ -120,7 +119,7 @@ public class MathFieldD extends JLabel implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickListenerAdapter adapter = new ClickListenerAdapter(clickListener);
+		ClickListenerAdapter adapter = new ClickListenerAdapter(this, clickListener);
 		addMouseListener(adapter);
 		addMouseMotionListener(adapter);
 	}
@@ -241,17 +240,17 @@ public class MathFieldD extends JLabel implements MathField {
 	@Override
 	public void tab(boolean shiftDown) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public int getScrollX() {
+		return scrollX;
 	}
 
 	/**
-	 * @return caret path as indices in the formula tree
+	 * Scroll to get caret into view
+	 * @param width parent width
 	 */
-	public ArrayList<Integer> getCaretPath() {
-		return CursorController.getPath(mathFieldInternal.getEditorState());
-	}
-
-	public int getCursorX() {
-		return cursorX;
+	public void scrollHorizontally(int width) {
+		scrollX = MathFieldInternal.getHorizontalScroll(scrollX, width, cursorX);
 	}
 }

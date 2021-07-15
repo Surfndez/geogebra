@@ -27,7 +27,7 @@ import com.himamis.retex.renderer.share.TeXFont;
 public class SymbolicEditorD extends SymbolicEditor {
 
 	private final Box box;
-	private MathFieldD mathField;
+	private final MathFieldD mathField;
 	private double baseline;
 
 	protected SymbolicEditorD(App app, EuclidianView view) {
@@ -74,13 +74,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 		}
 	}
 
+	@Override
 	protected void showRedefinedBox(final DrawInputBox drawable) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				drawable.setWidgetVisible(true);
-			}
-		});
+		SwingUtilities.invokeLater(() -> drawable.setWidgetVisible(true));
 	}
 
 	@Override
@@ -137,9 +133,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
 		g.setClip(0, 0, box.getWidth(), box.getHeight());
-		double scrollX = Math.max(0, mathField.getCursorX() - box.getWidth()
-				+ MathFieldInternal.PADDING_LEFT_SCROLL);
-		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL - scrollX, 0);
+		mathField.scrollHorizontally(box.getWidth());
+		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL - mathField.getScrollX(), 0);
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 		g.resetClip();
 
@@ -155,6 +150,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
 		box.revalidate();
+		view.repaintView();
+	}
+
+	@Override
+	public void onCursorMove() {
 		view.repaintView();
 	}
 
