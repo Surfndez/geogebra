@@ -4482,7 +4482,6 @@ public abstract class GeoElement extends ConstructionElement
 		getElementOpenTagXML(sb);
 		getXMLtags(sb);
 		getCaptionXML(sb);
-		getXMLDynCaptionTag(sb);
 		getExtraTagsXML(sb);
 		if (getListenersToo) {
 			getListenerTagsXML(sb);
@@ -4622,6 +4621,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string builder
 	 */
 	final public void getCaptionXML(StringBuilder sb) {
+		getXMLDynCaptionTag(sb);
 		// caption text
 		if ((caption != null) && (caption.length() > 0)
 				&& !caption.equals(label)) {

@@ -149,6 +149,7 @@ public abstract class CanvasDrawable extends Drawable {
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
 			String text) {
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().measure(g2);
 			return getDynamicCaption().setLabelSize();
 		}
 		boolean latex = false;

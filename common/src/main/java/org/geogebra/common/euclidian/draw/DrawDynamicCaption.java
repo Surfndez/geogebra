@@ -49,7 +49,11 @@ public class DrawDynamicCaption {
 		drawCaption.draw(g2);
 	}
 
-	private void measure(GGraphics2D g2) {
+	/**
+	 * measure label
+	 * @param g2 canvas
+	 */
+	public void measure(GGraphics2D g2) {
 		drawCaption.xLabel = Integer.MIN_VALUE;
 		drawCaption.yLabel = Integer.MIN_VALUE;
 
@@ -103,10 +107,14 @@ public class DrawDynamicCaption {
 			return false;
 		}
 
-		if (drawable instanceof DrawInputBox) {
+		if (drawable instanceof CanvasDrawable) {
 			((CanvasDrawable) drawable).labelSize.x = captionWidth;
 			((CanvasDrawable) drawable).labelSize.y = captionHeight;
-			((CanvasDrawable) drawable).calculateBoxBounds();
+			if (drawable instanceof DrawInputBox) {
+				((CanvasDrawable) drawable).calculateBoxBounds();
+			} else if (drawable instanceof DrawDropDownList) {
+				((CanvasDrawable) drawable).calculateBoxBounds(getDynamicCaption().isLaTeX());
+			}
 		}
 		return getDynamicCaption().isLaTeX();
 	}
