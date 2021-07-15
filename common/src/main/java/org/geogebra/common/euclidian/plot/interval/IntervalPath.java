@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.util.debug.Log;
 
 public class IntervalPath {
 	private final IntervalPathPlotter gp;
@@ -50,11 +51,33 @@ public class IntervalPath {
 				if (lastY.isEmpty()) {
 					moveToCurveBegin(point);
 				} else {
-					plotInterval(lastY, point);
+					if (point.y().isInverted()) {
+						drawInverted(point);
+						point.y().setEmpty();
+
+					} else {
+						plotInterval(lastY, point);
+					}
 				}
+				lastY.set(point.y());
 			}
 			moveTo = moveNeeded;
-			lastY.set(point.y());
+		}
+	}
+
+	private void drawInverted(IntervalTuple point) {
+		Interval x = view.toScreenIntervalX(point.x());
+		Interval y = view.toScreenIntervalY(point.y());
+		if (model.isAscending(point)) {
+			Log.debug("ascending");
+			gp.lineTo(x.getLow() + (x.getWidth() / 2), 0);
+			gp.moveTo(x.getLow() + (x.getWidth() / 2), y.getLow());
+			gp.lineTo(x.getHigh(), view.getWidth());
+		} else {
+			Log.debug("descending");
+			gp.lineTo(x.getLow() + (x.getWidth() / 2), view.getWidth());
+			gp.moveTo(x.getLow() + (x.getWidth() / 2), 0);
+			gp.lineTo(x.getHigh(), y.getLow());
 		}
 	}
 

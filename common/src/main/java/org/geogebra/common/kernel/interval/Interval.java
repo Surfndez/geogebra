@@ -20,6 +20,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private double low;
 	private double high;
+	private boolean inverted = false;
 
 	/**
 	 * Creates a singleton interval [value, value]
@@ -256,8 +257,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			return true;
 		}
 
-		return DoubleUtil.isEqual(low, other.low, 1E-7)
-			&& DoubleUtil.isEqual(high, other.high, 1E-7);
+		return inverted == other.inverted
+				&& DoubleUtil.isEqual(low, other.low, 1E-7)
+				&& DoubleUtil.isEqual(high, other.high, 1E-7);
 	}
 
 	/**
@@ -277,7 +279,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			if (low != 0) {
 				if (high != 0) {
 					// [negative, positive]
-					setUndefined();
+					Interval interval = new Interval(RMath.divLow(1, low), RMath.divHigh(1, high));
+					interval.setInverted();
+					return interval;
 				} else {
 					// [negative, zero]
 					double d = low;
@@ -782,5 +786,22 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public boolean isSingletonInteger() {
 		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
+	}
+
+	/**
+	 * Sets interval [low, high] inverted. This really means:
+	 * [-∞, low] union [high, ∞]
+	 */
+	public void setInverted() {
+		inverted = true;
+	}
+
+	/**
+	 *
+	 * @return if interval is inverted,
+	 * ie equals [-∞, low] union [high, ∞].
+	 */
+	public boolean isInverted() {
+		return inverted;
 	}
 }

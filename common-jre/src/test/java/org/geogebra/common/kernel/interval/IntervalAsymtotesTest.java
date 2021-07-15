@@ -22,6 +22,20 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void tanXHighResolution() {
+		IntervalTupleList result = functionValuesWithSampleCount(
+				"tan(x)", -30, 30, -30, 30, 1520);
+		assertTrue(result.get(74).isAsymptote());
+	}
+
+	@Test
+	public void xInverseHighResolution() {
+		IntervalTupleList result = functionValuesWithSampleCount(
+				"1/x", -10, 10, -30, 30, 100);
+		assertTrue(result.get(50).y().isInverted());
+	}
+
+	@Test
 	public void cotX() {
 		IntervalTupleList result = functionValues("cot(x)", 0, PI, -9, 9);
 		assertTrue(result.get(0).y().isUndefined()
@@ -104,9 +118,17 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 
 	private IntervalTupleList functionValues(String functionDescription,
 			double xmin, double xmax, double ymin, double ymax) {
+		return functionValuesWithSampleCount(functionDescription,
+				xmin, xmax, ymin, ymax,
+				100);
+	}
+
+	private IntervalTupleList functionValuesWithSampleCount(String functionDescription,
+			double xmin, double xmax, double ymin, double ymax, int sampleCount) {
 		GeoFunction function = add(functionDescription);
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
-		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range, 100);
+		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range,
+				sampleCount);
 		return sampler.result();
 	}
 
