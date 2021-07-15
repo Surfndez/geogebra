@@ -92,6 +92,7 @@ public class IntervalPlotModel {
 		} else {
 			moveDomain(oldMax - max);
 		}
+		updatePath();
 	}
 
 	private void shrinkDomain() {

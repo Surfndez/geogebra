@@ -147,7 +147,8 @@ class IntervalTrigonometric {
 		}
 
 		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {
-			interval.setWhole();
+			interval.set(RMath.tanLow(cache.getLow()), RMath.tanHigh(cache.getHigh()));
+			interval.setInverted();
 		} else {
 			interval.set(RMath.tanLow(cache.getLow()), RMath.tanHigh(cache.getHigh()));
 		}

@@ -50,16 +50,17 @@ public class IntervalPath {
 			if (!moveNeeded) {
 				if (lastY.isEmpty()) {
 					moveToCurveBegin(point);
+					lastY.set(point.y());
 				} else {
 					if (point.y().isInverted()) {
 						drawInverted(point);
-						point.y().setEmpty();
+						lastY.setEmpty();
 
 					} else {
 						plotInterval(lastY, point);
+						lastY.set(point.y());
 					}
 				}
-				lastY.set(point.y());
 			}
 			moveTo = moveNeeded;
 		}
