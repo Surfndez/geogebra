@@ -98,6 +98,102 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 
+				if (event.getKeyCode() == GWTKeycodes.KEY_ONE && event.getCtrlKey()) {
+					handleCtrlOne(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_TWO && event.getCtrlKey()) {
+					handleCtrlTwo(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_THREE && event.getCtrlKey()) {
+					handleCtrlThree(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_A && event.getCtrlKey()) {
+					handleCtrlA(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_K && event.getCtrlKey()) {
+					handleCtrlK(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_L && event.getCtrlKey()) {
+					handleCtrlL(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_O && event.getCtrlKey()) {
+					handleCtrlO(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_P && event.getCtrlKey()) {
+					handleCtrlP(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_T && event.getCtrlKey()) {
+					handleCtrlT(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_W && event.getCtrlKey()) {
+					handleCtrlW(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_F4 && event.getCtrlKey()) {
+					handleCtrlF4(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_F10 && event.getCtrlKey()) {
+					handleCtrlF10(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_I && event.getCtrlKey()) {
+					handleCtrlI(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_X && event.getCtrlKey()) {
+					handleCtrlX(false);
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_C && event.getCtrlKey()) {
+					handleCtrlC(event.getShiftKey(), false);
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_M && event.getCtrlKey()) {
+					handleCtrlM(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_B && event.getCtrlKey()) {
+					handleCtrlB(event.getShiftKey());
+				}
+				if ((event.getKeyCode() == GWTKeycodes.KEY_G
+						|| event.getKeyCode() == GWTKeycodes.KEY_H) && event.getCtrlKey()) {
+					handleCtrlGH(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_E && event.getCtrlKey()) {
+					handleCtrlE();
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_F && event.getCtrlKey()) {
+					handleCtrlF();
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_N && event.getCtrlKey()) {
+					handleCtrlN(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_Z && event.getCtrlKey()) {
+					handleCtrlZ(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_U && event.getCtrlKey()) {
+					handleCtrlU(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_V && event.getCtrlKey()) {
+					handleCtrlV(false);
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_R && event.getCtrlKey()) {
+					handleCtrlR();
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_S && event.getCtrlKey()) {
+					handleCtrlS(event.getShiftKey());
+				}
+				if (event.getKeyCode() == GWTKeycodes.KEY_Y && event.getCtrlKey()) {
+					handleCtrlY(event.getShiftKey());
+				}
+				if ((event.getKeyCode() == GWTKeycodes.KEY_J
+						|| event.getKeyCode() == GWTKeycodes.KEY_Q) && event.getCtrlKey()) {
+					handleCtrlJQ(event.getShiftKey());
+				}
+				if ((event.getKeyCode() == GWTKeycodes.KEY_NUM_PLUS
+						|| event.getKeyCode() == GWTKeycodes.KEY_MINUS
+						|| event.getKeyCode() == GWTKeycodes.KEY_NUM_MINUS
+						|| event.getKeyCode() == GWTKeycodes.KEY_EQUALS) && event.getCtrlKey()) {
+					handleCtrlPlusAddSubtractMinusEquals(true, KeyCodes.translateGWTcode(event.getKeyCode()));
+				}
+				if ((event.getKeyCode() == GWTKeycodes.KEY_D
+						|| event.getKeyCode() == GWTKeycodes.KEY_BACK_QUOTE) && event.getCtrlKey()) {
+					handleCtrlJQ(event.getShiftKey());
+				}
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
@@ -180,7 +276,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	private static boolean isControlKeyDown(NativeEvent event) {
+	public static boolean isControlKeyDown(NativeEvent event) {
 		return event.getCtrlKey()
 				|| (Browser.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
 	}
@@ -309,5 +405,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	public void setEscPressed(boolean escPressed) {
 		this.escPressed = escPressed;
+	}
+
+	public boolean isEscPressed() {
+		return escPressed;
 	}
 }

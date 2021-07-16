@@ -12,15 +12,19 @@ import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -384,5 +388,173 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	@Override
 	protected KeyCodes translateKey(int i) {
 		return KeyCodes.translateJavacode(i);
+	}
+
+	@Override
+	protected boolean handleCtrlKey(KeyCodes key, boolean isShiftDown, boolean fromSpreadsheet,
+			boolean fromEuclidianView) {
+		boolean consumed = false;
+		switch (key) {
+		case NUMPAD1:
+		case K1:
+			handleCtrlOne(isShiftDown);
+			consumed = true;
+			break;
+
+		case NUMPAD2:
+		case K2:
+			handleCtrlTwo(isShiftDown);
+			consumed = true;
+			break;
+
+		case NUMPAD3:
+		case K3:
+			handleCtrlThree(isShiftDown);
+			consumed = true;
+			break;
+
+		case A:
+			handleCtrlA(isShiftDown);
+			consumed = true;
+			break;
+
+		case K:
+			handleCtrlK(isShiftDown);
+			consumed = true;
+			break;
+
+		case L:
+			handleCtrlL(isShiftDown);
+			consumed = true;
+			break;
+
+		case O:
+			handleCtrlO(isShiftDown);
+			consumed = true;
+			break;
+
+		case P:
+			handleCtrlP(isShiftDown);
+			consumed = true;
+			break;
+
+		case T:
+			handleCtrlT(isShiftDown);
+			consumed = true;
+			break;
+
+		case W:
+			handleCtrlW(isShiftDown);
+			consumed = true;
+			break;
+
+		case F4:
+			handleCtrlF4(isShiftDown);
+			consumed = true;
+			break;
+
+		case F10:
+			handleCtrlF10(isShiftDown);
+			consumed = true;
+			break;
+
+		case I:
+			handleCtrlI(isShiftDown);
+			consumed = true;
+			break;
+
+		case X:
+			handleCtrlX(fromSpreadsheet);
+			consumed = true;
+			break;
+
+		case C:
+			handleCtrlC(isShiftDown, fromSpreadsheet);
+			consumed = true;
+			break;
+
+		case M:
+			handleCtrlM(isShiftDown);
+			consumed = true;
+			break;
+
+		case B:
+			handleCtrlB(isShiftDown);
+			consumed = true;
+			break;
+
+		case G:
+		case H:
+			handleCtrlGH(isShiftDown);
+			consumed = true;
+			break;
+
+		case E:
+			handleCtrlE();
+			consumed = true;
+			break;
+
+		case F:
+			handleCtrlF();
+			consumed = true;
+			break;
+
+		case N:
+			handleCtrlN(isShiftDown);
+			consumed = true;
+			break;
+
+		case Z:
+			handleCtrlZ(isShiftDown);
+			consumed = true;
+			break;
+
+		case U:
+			handleCtrlU(isShiftDown);
+			consumed = true;
+			break;
+
+		case V:
+			handleCtrlV(fromSpreadsheet);
+			consumed = true;
+			break;
+
+		case R:
+			handleCtrlR();
+			consumed = true;
+			break;
+
+		case S:
+			handleCtrlS(isShiftDown);
+			consumed = true;
+			break;
+
+		case Y:
+			handleCtrlY(isShiftDown);
+			consumed = true;
+			break;
+
+		case J:
+		case Q:
+			handleCtrlJQ(isShiftDown);
+			consumed = true;
+			break;
+
+		case PLUS:
+		case ADD:
+		case SUBTRACT:
+		case MINUS:
+		case EQUALS:
+			handleCtrlPlusAddSubtractMinusEquals(fromEuclidianView, key);
+			consumed = true;
+			break;
+
+		case D:
+		case BACK_QUOTE:
+			handleCtrlDBackquote(isShiftDown);
+			consumed = true;
+			break;
+		}
+		return consumed;
 	}
 }
