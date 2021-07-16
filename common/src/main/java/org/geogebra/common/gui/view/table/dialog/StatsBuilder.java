@@ -37,31 +37,31 @@ public class StatsBuilder {
 	/**
 	 * @return single variable statistics
 	 */
-	public List<StatisticRow> getStatistics() {
-		List<StatisticRow> stats = new ArrayList<>();
+	public List<StatisticGroup> getStatistics1Var(String varName) {
+		List<StatisticGroup> stats = new ArrayList<>();
 		// use command strings, not algos, to make sure code splitting works in Web
 
-		addStats(stats, ONE_VAR_STATS, "x", lists[0]);
-		addStats(stats, ONE_VAR_EXTRA, "x", lists[0]);
+		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
+		addStats(stats, ONE_VAR_EXTRA, varName, lists[0]);
 		return stats;
 	}
 
 	/**
 	 * @return two variable statistics
 	 */
-	public List<StatisticRow> getStatistics2() {
-		List<StatisticRow> stats = new ArrayList<>();
+	public List<StatisticGroup> getStatistics2Var(String varName, String varName2) {
+		List<StatisticGroup> stats = new ArrayList<>();
 		// use command strings, not algos, to make sure code splitting works in Web
-		addStats(stats, ONE_VAR_STATS, "x", lists[0]);
-		addStats(stats, ONE_VAR_STATS, "y", lists[1]);
+		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
+		addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
 		addStats(stats, TWO_VAR_STATS, "", lists);
-		addStats(stats, Arrays.asList(Stat.LENGTH), "x", lists[0]);
-		addStats(stats, MIN_MAX, "x", lists[0]);
-		addStats(stats, MIN_MAX, "y", lists[1]);
+		addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
+		addStats(stats, MIN_MAX, varName, lists[0]);
+		addStats(stats, MIN_MAX, varName2, lists[1]);
 		return stats;
 	}
 
-	private void addStats(List<StatisticRow> stats, List<Stat> statAlgos, String varName,
+	private void addStats(List<StatisticGroup> stats, List<Stat> statAlgos, String varName,
 			GeoEvaluatable... lists) {
 		for (Stat cmd: statAlgos) {
 			Command exec = new Command(kernel, cmd.getCommandName(), false);
@@ -73,7 +73,7 @@ public class StatsBuilder {
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
 				String heading = cmd.getLocalizedName(kernel.getLocalization());
 				String lhs = cmd.getLHS(kernel.getLocalization(), varName);
-				stats.add(new StatisticRow(heading,
+				stats.add(new StatisticGroup(heading,
 						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate)));
 			} catch (Exception e) {
 				e.printStackTrace();

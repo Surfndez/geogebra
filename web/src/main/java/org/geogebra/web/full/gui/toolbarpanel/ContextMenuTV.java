@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.dialog.StatisticRow;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -81,8 +81,8 @@ public class ContextMenuTV {
 		if (getColumnIdx() > 0) {
 			// column index > 0 -> edit function
 			if (view.getTableValuesModel().isColumnEditable(getColumnIdx())) {
-				addStats("Statistics", view::getStatistics);
-				addStats("Statistics2", view::getStatistics2);
+				addStats("Statistics", view::getStatistics1Var);
+				addStats("Statistics2", view::getStatistics2Var);
 				addCommand(this::showRegression, "Regression",
 						"regression");
 			} else {
@@ -103,12 +103,12 @@ public class ContextMenuTV {
 					dialogManager.openTableViewDialog(null);
 				}
 			});
-			addStats("Statistics", view::getStatistics);
+			addStats("Statistics", view::getStatistics1Var);
 			addAdd();
 		}
 	}
 
-	private void addStats(String transKey, Function<Integer, List<StatisticRow>> statFunction) {
+	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction) {
 		addCommand(() -> showStats(statFunction), transKey,	transKey.toLowerCase(Locale.US));
 	}
 
@@ -118,7 +118,7 @@ public class ContextMenuTV {
 		dialog.show();
 	}
 
-	private void showStats(Function<Integer, List<StatisticRow>> statFunction) {
+	private void showStats(Function<Integer, List<StatisticGroup>> statFunction) {
 		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx());
 		dialog.updateContent(statFunction);
 	}

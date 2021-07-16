@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.kernel.statistics.Regression;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Settings for DA view.

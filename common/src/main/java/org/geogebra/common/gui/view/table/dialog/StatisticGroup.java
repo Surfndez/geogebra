@@ -1,16 +1,16 @@
 package org.geogebra.common.gui.view.table.dialog;
 
-public class StatisticRow {
+public class StatisticGroup {
 	private final String heading;
-	private final String value;
+	private final String[] values;
 	private boolean isLaTeX;
 
 	/**
 	 * @param heading heading row
-	 * @param value value row
+	 * @param values values row
 	 */
-	public StatisticRow(String heading, String value) {
-		this.value = value;
+	public StatisticGroup(String heading, String... values) {
+		this.values = values;
 		this.heading = heading;
 	}
 
@@ -24,8 +24,8 @@ public class StatisticRow {
 	/**
 	 * @return value row
 	 */
-	public String getValue() {
-		return value;
+	public String[] getValues() {
+		return values;
 	}
 
 	/**
@@ -33,8 +33,8 @@ public class StatisticRow {
 	 * @param formula LaTeX formula (value row)
 	 * @return stats dialog entry
 	 */
-	public static StatisticRow withLaTeX(String heading, String formula) {
-		StatisticRow row = new StatisticRow(heading, formula);
+	public static StatisticGroup withLaTeX(String heading, String formula) {
+		StatisticGroup row = new StatisticGroup(heading, formula);
 		row.isLaTeX = true;
 		return row;
 	}

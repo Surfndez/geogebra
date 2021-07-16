@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.FitAlgo;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
 public class RegressionBuilder {
@@ -35,31 +36,34 @@ public class RegressionBuilder {
 	 * @param degree polynomial degree (used only for polynomial regression)
 	 * @return regression parameters + coeffficient of determination
 	 */
-	public List<StatisticRow> getRegression(Regression regression, int degree) {
+	public List<StatisticGroup> getRegression(Regression regression, int degree) {
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
 		Command cmd = regression.buildCommand(kernel, degree, points);
-		List<StatisticRow> stats = new ArrayList<>();
+		List<StatisticGroup> stats = new ArrayList<>();
+		Localization loc = kernel.getLocalization();
 		try {
 			AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
 			double[] coeffs = fitAlgo.getCoeffs();
-			char coeffName = 'a';
-			stats.add(StatisticRow.withLaTeX("Formula",
+			stats.add(StatisticGroup.withLaTeX("Formula",
 					regression.getFormula(degree)));
-			for (double coeff: coeffs) {
-				stats.add(new StatisticRow(coeffName == 'a' ? "Parameters" : null,
-						coeffName + " = "
-						+ kernel.format(coeff, StringTemplate.defaultTemplate)));
-				coeffName++;
+			String[] parameters = new String[coeffs.length];
+			for (int i = 0; i < coeffs.length; i++) {
+				char coeffName = (char) ('a' + i);
+				parameters[i] = coeffName + " = "
+						+ kernel.format(coeffs[i], StringTemplate.defaultTemplate);
 			}
+			stats.add(new StatisticGroup(loc.getMenu("Parameters"), parameters));
 			Command residualCmd = new Command(kernel, Stat.RSQUARE.getCommandName(), false);
 			residualCmd.addArgument(points.wrap());
 			residualCmd.addArgument(geo.wrap());
 			GeoElementND residual = algebraProcessor.processValidExpressionSilent(residualCmd)[0];
 			String lhs = Stat.RSQUARE.getLHS(kernel.getLocalization(), "");
-			stats.add(new StatisticRow("CoefficientOfDetermination", lhs + " = "
-					+ kernel.format(residual.evaluateDouble(), StringTemplate.defaultTemplate)));
+			String rSquareRow =	kernel.format(residual.evaluateDouble(),
+					StringTemplate.defaultTemplate);
+			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"), lhs + " = "
+					+ rSquareRow));
 		} catch (Exception e) {
 			Log.error(e);
 		}

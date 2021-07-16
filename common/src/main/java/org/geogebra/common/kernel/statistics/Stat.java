@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public enum Stat {
-	NULL(null), LENGTH(Commands.Length), MEAN(Commands.mean, "%v\u0304"),
+	NULL(null), LENGTH(Commands.Length), MEAN(Commands.mean, "\\overline{%v}"),
 	SD(Commands.SD, "%t%v"), SAMPLE_SD(Commands.SampleSD, "%t%v"),
 	SUM(Commands.Sum, Unicode.Sigma + "%v"),
 	SIGMAXX(Commands.SigmaXX, Unicode.Sigma + "%v" + Unicode.SUPERSCRIPT_2),

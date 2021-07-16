@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.dialog.StatisticRow;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -41,30 +41,32 @@ public class StatsDialogTV extends ComponentDialog {
 	/**
 	 * @param statFunction row data producer
 	 */
-	public void updateContent(Function<Integer, List<StatisticRow>> statFunction) {
+	public void updateContent(Function<Integer, List<StatisticGroup>> statFunction) {
 		((AppW) app).getAsyncManager().scheduleCallback(() -> {
 				setRows(statFunction.apply(column));
 				show();
 		});
 	}
 
-	private void setRows(List<StatisticRow> statistics) {
+	private void setRows(List<StatisticGroup> statistics) {
 		if (statPanel != null) {
 			statPanel.removeFromParent();
 		}
 		this.statPanel = new FlowPanel();
-		for (StatisticRow row: statistics) {
+		for (StatisticGroup row: statistics) {
 			Label heading = new Label(row.getHeading());
 			heading.getElement().getStyle().setColor(StringUtil.toHtmlColor(GColor.LIGHT_GRAY));
 			heading.getElement().getStyle().setFontSize(.7, Style.Unit.EM);
 			heading.getElement().getStyle().setMarginTop(.5, Style.Unit.EM);
 			statPanel.add(heading);
-			if (row.isLaTeX()) {
-				Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
-						row.getValue(), null, 16, GColor.BLACK, false);
-				statPanel.add(canvas);
-			} else {
-				statPanel.add(new Label(row.getValue()));
+			for (String value: row.getValues()) {
+				if (row.isLaTeX()) {
+					Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
+							value, null, 16, GColor.BLACK, false);
+					statPanel.add(canvas);
+				} else {
+					statPanel.add(new Label(value));
+				}
 			}
 		}
 		addDialogContent(statPanel);

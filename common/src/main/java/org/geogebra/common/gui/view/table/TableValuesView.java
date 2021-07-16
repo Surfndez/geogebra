@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
-import org.geogebra.common.gui.view.table.dialog.StatisticRow;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
@@ -353,17 +353,19 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param column column
 	 * @return one variable stats
 	 */
-	public List<StatisticRow> getStatistics(int column) {
-		return new StatsBuilder(model.getEvaluatable(column)).getStatistics();
+	public List<StatisticGroup> getStatistics1Var(int column) {
+		return new StatsBuilder(model.getEvaluatable(column))
+				.getStatistics1Var(model.getHeaderAt(column));
 	}
 
 	/**
 	 * @param column column
 	 * @return two variable stats for first and given column
 	 */
-	public List<StatisticRow> getStatistics2(int column) {
+	public List<StatisticGroup> getStatistics2Var(int column) {
 		return new StatsBuilder(model.getEvaluatable(0),
-				model.getEvaluatable(column)).getStatistics2();
+				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
+				model.getHeaderAt(1));
 	}
 
 	/**
@@ -372,7 +374,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param degree regression polynomial degree
 	 * @return regression parameters for first and given column
 	 */
-	public List<StatisticRow> getRegression(int column, Regression regression, int degree) {
+	public List<StatisticGroup> getRegression(int column, Regression regression, int degree) {
 		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
 				.getRegression(regression, degree);
 	}

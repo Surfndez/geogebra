@@ -2006,13 +2006,11 @@ public class AlgebraProcessor {
 			throws MyError, Exception {
 		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		GeoElement[] ret = null;
 		try {
-			ret = processValidExpression(ve, new EvalInfo(false));
+			return processValidExpression(ve, new EvalInfo(false));
 		} finally {
 			cons.setSuppressLabelCreation(oldSuppressLabel);
 		}
-		return ret;
 	}
 
 	private void stripDefinition(GeoElement[] elements) {
