@@ -8,14 +8,14 @@ import com.himamis.retex.editor.share.util.Unicode;
 public enum Stat {
 	NULL(null), LENGTH(Commands.Length), MEAN(Commands.mean, "\\overline{%v}"),
 	SD(Commands.SD, "%t%v"), SAMPLE_SD(Commands.SampleSD, "%t%v"),
-	SUM(Commands.Sum, Unicode.Sigma + "%v"),
-	SIGMAXX(Commands.SigmaXX, Unicode.Sigma + "%v" + Unicode.SUPERSCRIPT_2),
+	SUM(Commands.Sum, "\\Sigma %v"),
+	SIGMAXX(Commands.SigmaXX, "\\Sigma %v" + Unicode.SUPERSCRIPT_2),
 	MIN(Commands.Min, "%t(%v)"),	Q1(Commands.Quartile1), MEDIAN(Commands.Median),
 	Q3(Commands.Q3), MAX(Commands.Max, "%t(%v)"), MEANX(Commands.MeanX),
 	MEANY(Commands.MeanY), SX(Commands.SampleSDX), SY(Commands.SampleSDY), PMCC(Commands.PMCC),
 	SPEARMAN(Commands.Spearman), SXX(Commands.SXX), SYY(Commands.SYY), SXY(Commands.SXY),
 	RSQUARE(Commands.RSquare), SSE(Commands.SumSquaredErrors),
-	SIGMAXY(Commands.SigmaXY, Unicode.Sigma + "xy"),
+	SIGMAXY(Commands.SigmaXY, "\\Sigma %v"),
 	COVARIANCE(Commands.Covariance, "cov");
 
 	private final Commands cmd;

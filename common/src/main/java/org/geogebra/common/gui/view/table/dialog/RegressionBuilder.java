@@ -60,7 +60,7 @@ public class RegressionBuilder {
 			residualCmd.addArgument(geo.wrap());
 			GeoElementND residual = algebraProcessor.processValidExpressionSilent(residualCmd)[0];
 			String lhs = Stat.RSQUARE.getLHS(kernel.getLocalization(), "");
-			String rSquareRow =	kernel.format(residual.evaluateDouble(),
+			String rSquareRow = kernel.format(residual.evaluateDouble(),
 					StringTemplate.defaultTemplate);
 			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"), lhs + " = "
 					+ rSquareRow));

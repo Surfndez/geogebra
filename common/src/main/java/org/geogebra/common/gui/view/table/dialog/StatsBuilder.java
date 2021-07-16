@@ -54,7 +54,7 @@ public class StatsBuilder {
 		// use command strings, not algos, to make sure code splitting works in Web
 		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
 		addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
-		addStats(stats, TWO_VAR_STATS, "", lists);
+		addStats(stats, TWO_VAR_STATS, varName + varName2, lists);
 		addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
 		addStats(stats, MIN_MAX, varName, lists[0]);
 		addStats(stats, MIN_MAX, varName2, lists[1]);
@@ -73,7 +73,7 @@ public class StatsBuilder {
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
 				String heading = cmd.getLocalizedName(kernel.getLocalization());
 				String lhs = cmd.getLHS(kernel.getLocalization(), varName);
-				stats.add(new StatisticGroup(heading,
+				stats.add(StatisticGroup.withLaTeX(heading,
 						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate)));
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -62,7 +62,8 @@ public class StatsDialogTV extends ComponentDialog {
 			for (String value: row.getValues()) {
 				if (row.isLaTeX()) {
 					Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
-							value, null, 16, GColor.BLACK, false);
+							value, null, 16,
+							GColor.newColor(102, 102, 102), false);
 					statPanel.add(canvas);
 				} else {
 					statPanel.add(new Label(value));
