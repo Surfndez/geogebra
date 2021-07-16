@@ -790,9 +790,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void focusTextArea() {
-		inputTextArea.getElement().focus();
-		if (html.getElement().getParentElement() != null) {
-			html.getElement().getParentElement().setScrollTop(0);
+		Element parentElement = html.getElement().getParentElement();
+		if (parentElement != null) {
+			int scroll = parentElement.getScrollLeft();
+			inputTextArea.getElement().focus();
+			parentElement.setScrollLeft(scroll);
+			parentElement.setScrollTop(0);
+		} else {
+			inputTextArea.getElement().focus();
 		}
 		startBlink();
 	}
@@ -1229,11 +1234,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *
 	 * @param parentPanel
 	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	public void scrollParentHorizontally(FlowPanel parentPanel) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
 	}
 
 	/**
