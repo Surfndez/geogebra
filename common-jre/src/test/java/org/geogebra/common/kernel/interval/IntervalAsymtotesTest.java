@@ -36,6 +36,40 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void xInverseMonotonity() {
+		IntervalTupleList result = functionValuesWithSampleCount(
+				"1/x", -10, 10, -30, 30, 100);
+		assertFalse(result.isAscendingBefore(2));
+		assertFalse(result.isAscendingBefore(50));
+	}
+
+	@Test
+	public void minusXInverseMonotonity() {
+		IntervalTupleList result = functionValuesWithSampleCount(
+				"-1/x", -10, 10, -30, 30, 100);
+		assertTrue(result.isAscendingBefore(2));
+		assertTrue(result.isAscendingBefore(50));
+	}
+
+	@Test
+	public void sinXInverseShouldBeInverted() {
+		IntervalTupleList result = functionValues("1/sin(x)",
+				-PI, PI, -10, 10);
+		assertTrue(result.get(0).y().isInverted());
+		assertTrue(result.get(99).y().isInverted());
+	}
+
+	@Test
+	public void sinXInverseShouldBeInvertedOn4Pi() {
+		IntervalTupleList result = functionValues("1/sin(x)",
+				-2 * PI, 2 * PI, -10, 10);
+		assertTrue(result.get(0).y().isInverted());
+		assertTrue(result.get(24).y().isInverted());
+		assertTrue(result.get(74).y().isInverted());
+		assertTrue(result.get(99).y().isInverted());
+	}
+
+	@Test
 	public void cotX() {
 		IntervalTupleList result = functionValues("cot(x)", 0, PI, -9, 9);
 		assertTrue(result.get(0).y().isUndefined()

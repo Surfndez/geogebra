@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * List to hold IntervalTuples
  *
@@ -148,5 +150,17 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	public Interval valueAt(int index) {
 		return get(index).y();
+	}
+
+
+	public boolean isAscendingBefore(int index) {
+		if (index < 2) {
+			return false;
+		}
+		Interval y1 = list.get(index - 2).y();
+		Interval y2 = list.get(index - 1).y();
+		boolean greaterThan = y2.isGreaterThan(y1);
+		Log.debug(y1 + " <? " + y2 + " asc: " + greaterThan);
+		return greaterThan;
 	}
 }

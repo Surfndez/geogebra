@@ -45,9 +45,9 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-		/**
-		 * Updates the entire model.
-		 */
+	/**
+	 * Updates the entire model.
+	 */
 	public void updateAll() {
 		updateRanges();
 		updateSampler();
@@ -180,16 +180,23 @@ public class IntervalPlotModel {
 	}
 
 	/**
-	 *
 	 * @param point to check around
 	 * @return if the function is ascending from point to the right.
 	 */
-	public boolean isAscending(IntervalTuple point) {
+	public boolean isAscendingBefore(IntervalTuple point) {
 		if (point.index() > points.count() - 1) {
 			return false;
 		}
 
 		IntervalTuple next = pointAt(point.index() + 1);
 		return next != null && next.y().isGreaterThan(point.y());
+	}
+
+	/**
+	 * @param index of the point to check around
+	 * @return if the function is ascending from point to the right.
+	 */
+	public boolean isAscendingBefore(int index) {
+		return points.isAscendingBefore(index);
 	}
 }

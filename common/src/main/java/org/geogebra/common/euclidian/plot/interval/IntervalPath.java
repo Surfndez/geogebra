@@ -53,7 +53,7 @@ public class IntervalPath {
 					lastY.set(point.y());
 				} else {
 					if (point.y().isInverted()) {
-						drawInverted(point);
+						drawInverted(point, model.isAscendingBefore(i));
 						lastY.setEmpty();
 
 					} else {
@@ -66,19 +66,26 @@ public class IntervalPath {
 		}
 	}
 
-	private void drawInverted(IntervalTuple point) {
+	private void drawInverted(IntervalTuple point, boolean ascending) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
-		if (model.isAscending(point)) {
-			Log.debug("ascending");
-			gp.lineTo(x.getLow() + (x.getWidth() / 2), 0);
-			gp.moveTo(x.getLow() + (x.getWidth() / 2), y.getLow());
-			gp.lineTo(x.getHigh(), view.getWidth());
-		} else {
+		double xMiddle = x.getLow() + (x.getWidth() / 2);
+		double yLow = y.getLow() < view.getHeight()
+				? Math.max(0, y.getLow())
+				: view.getHeight();
+		if (ascending) {
+			if (yLow > 0) {
+				Log.debug("ascending");
+				gp.lineTo(xMiddle, 0);
+				gp.moveTo(xMiddle, view.getHeight());
+				gp.lineTo(x.getHigh(), yLow);
+			}
+		} else if (yLow < view.getHeight()) {
 			Log.debug("descending");
-			gp.lineTo(x.getLow() + (x.getWidth() / 2), view.getWidth());
-			gp.moveTo(x.getLow() + (x.getWidth() / 2), 0);
-			gp.lineTo(x.getHigh(), y.getLow());
+
+			gp.lineTo(xMiddle, view.getHeight());
+			gp.moveTo(xMiddle, 0);
+			gp.lineTo(x.getHigh(), yLow);
 		}
 	}
 
@@ -89,7 +96,7 @@ public class IntervalPath {
 	private void moveToCurveBegin(IntervalTuple point) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
-		if (model.isAscending(point)) {
+		if (model.isAscendingBefore(point)) {
 			gp.moveTo(x.getLow(), y.getHigh());
 			gp.lineTo(x.getHigh(), y.getLow());
 		} else {
