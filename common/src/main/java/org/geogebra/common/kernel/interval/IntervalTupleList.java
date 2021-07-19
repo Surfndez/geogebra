@@ -154,7 +154,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 
 	public boolean isAscendingBefore(int index) {
-		if (index < 2) {
+		if (index < 2 || list.get(index - 1).isEmpty()) {
 			return false;
 		}
 		Interval y1 = list.get(index - 2).y();
