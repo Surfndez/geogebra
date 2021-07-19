@@ -188,16 +188,23 @@ public class IntervalPlotModel {
 			return false;
 		}
 
-		IntervalTuple next = pointAt(point.index() + 1);
-		return next != null && next.y().isGreaterThan(point.y());
+		return isAscendingBefore(point.index() + 1);
+	}
+
+	/**
+	 * @param index of the point to check around
+	 * @return if the function is ascending from point to the left.
+	 */
+	public boolean isAscendingBefore(int index) {
+		return points.isAscendingBefore(index);
 	}
 
 	/**
 	 * @param index of the point to check around
 	 * @return if the function is ascending from point to the right.
 	 */
-	public boolean isAscendingBefore(int index) {
-		return points.isAscendingBefore(index);
+	public boolean isAscendingAfter(int index) {
+		return points.isAscendingAfter(index);
 	}
 
 	/**

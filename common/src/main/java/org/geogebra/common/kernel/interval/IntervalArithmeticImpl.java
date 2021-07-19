@@ -193,6 +193,9 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 				interval.setZero();
 			}
 		}
+		if (other.isInverted()) {
+			interval.setInverted();
+		}
 		return interval;
 	}
 }

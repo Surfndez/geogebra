@@ -92,7 +92,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler =
 				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
-		assertEquals(new Interval(3.1622776016, Double.POSITIVE_INFINITY), result.get(0).y());
+		assertTrue(result.get(0).isInverted());
 	}
 
 	@Test
@@ -102,7 +102,17 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler =
 				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
-		assertEquals(new Interval(Double.NEGATIVE_INFINITY, -3.1622776016), result.get(0).y());
+		assertTrue(result.get(0).isInverted());
+	}
+
+	@Test
+	public void minusSqrtXMinusInverse() {
+		GeoFunction function = add("-sqrt(1/-x)");
+		IntervalTuple range = PlotterUtils.newRange(-10, 0, -8, 8);
+		IntervalFunctionSampler sampler =
+				new IntervalFunctionSampler(function, range, 100);
+		IntervalTupleList result = sampler.result();
+		assertTrue(result.get(100).isInverted());
 	}
 
 	@Test

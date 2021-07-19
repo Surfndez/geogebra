@@ -163,4 +163,14 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		Log.debug(y1 + " <? " + y2 + " asc: " + greaterThan);
 		return greaterThan;
 	}
+	public boolean isAscendingAfter(int index) {
+		if (index > list.size() -2 || list.get(index + 1).isEmpty()) {
+			return false;
+		}
+		Interval y1 = list.get(index + 1).y();
+		Interval y2 = list.get(index + 2).y();
+		boolean greaterThan = y2.isGreaterThan(y1);
+		Log.debug(y1 + " <? " + y2 + " asc: " + greaterThan);
+		return greaterThan;
+	}
 }

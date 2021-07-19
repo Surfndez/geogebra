@@ -48,7 +48,7 @@ public class IntervalPath {
 			boolean moveNeeded = isMoveNeeded(point);
 			if (!moveNeeded) {
 				if (lastY.isEmpty()) {
-					moveToCurveBegin(point);
+					moveToCurveBegin(i, point);
 					lastY.set(point.y());
 				} else {
 					if (point.y().isInverted()) {
@@ -106,16 +106,16 @@ public class IntervalPath {
 		return tuple.isEmpty() || tuple.isUndefined() || tuple.isAsymptote();
 	}
 
-	private void moveToCurveBegin(IntervalTuple point) {
+	private void moveToCurveBegin(int i, IntervalTuple point) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
 		boolean inverted = point.y().isInverted();
-		if (model.isAscendingBefore(point)) {
+		if (model.isAscendingAfter(i)) {
+			// -sqrt(1/x)
 			gp.moveTo(x.getLow(), inverted ? view.getHeight() : y.getLow());
-//			gp.lineTo(x.getHigh(), y.getLow());
 		} else {
-			gp.moveTo(x.getLow(), inverted ? 0: y.getHigh());
-//			gp.lineTo(x.getHigh(), y.getHigh());
+			// sqrt(1/x)
+			gp.moveTo(x.getLow(), inverted ? 0 : y.getLow());
 		}
 	}
 
