@@ -74,9 +74,10 @@ public class AlgoIsFactored extends AlgoElement {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
-		PolyFunction polyFun = function.expandToPolyFunction(function.getExpression(), false, false);
+		PolyFunction polyFun =
+				function.expandToPolyFunction(function.getExpression(), false, false);
 		int degree = polyFun.getDegree();
-		if (degree > 7) {
+		if (degree > 5) {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
