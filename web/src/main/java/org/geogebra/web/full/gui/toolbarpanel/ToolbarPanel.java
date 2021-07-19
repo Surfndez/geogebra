@@ -324,6 +324,9 @@ public class ToolbarPanel extends FlowPanel
 		heading.add(close);
 	}
 
+	/**
+	 * closes toolbar with animation
+	 */
 	public void closeAnimation() {
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent != null) {
@@ -369,6 +372,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * shows the opposite view
+	 */
 	public void showOppositeView() {
 		animateHeadingHeight(HEADING_HEIGHT, 0);
 		int viewId = App.VIEW_EUCLIDIAN;
