@@ -78,9 +78,9 @@ public class IntervalPath {
 		if (ascending) {
 			if (yLow >= 0) {
 				gp.lineTo(xMiddle, 0);
-			} else if (yLow < view.getHeight()) {
-				gp.lineTo(xMiddle, view.getHeight());
 			}
+		} else if (yLow < view.getHeight()) {
+				gp.lineTo(xMiddle, view.getHeight());
 		}
 	}
 
