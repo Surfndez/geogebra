@@ -199,4 +199,13 @@ public class IntervalPlotModel {
 	public boolean isAscendingBefore(int index) {
 		return points.isAscendingBefore(index);
 	}
+
+	/**
+	 *
+	 * @param index of the tuple.
+	 * @return if the tuple of a given index is empty or not.
+	 */
+	public boolean isEmptyAt(int index) {
+		return index >= points.count() || pointAt(index).isEmpty();
+	}
 }

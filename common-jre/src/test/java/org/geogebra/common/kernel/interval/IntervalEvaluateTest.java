@@ -74,6 +74,12 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSqrtXInverse() {
+		Interval result = interval(0, 1).multiplicativeInverse().sqrt();
+		assertEquals(interval(-1, 0), result);
+	}
+
+	@Test
 	public void testAddAndSinEvaluate() throws Exception {
 		assertEquals(interval(PI, 3 * PI / 2),
 				interval(PI, PI).evaluate(Operation.PLUS, interval(0, PI / 2)));
@@ -84,4 +90,6 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 					.evaluate(Operation.PLUS, interval(2, 3)));
 
 	}
+
+
 }

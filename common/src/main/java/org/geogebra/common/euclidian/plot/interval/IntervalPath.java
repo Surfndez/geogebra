@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.util.debug.Log;
 
 public class IntervalPath {
 	private final IntervalPathPlotter gp;
@@ -53,7 +52,10 @@ public class IntervalPath {
 					lastY.set(point.y());
 				} else {
 					if (point.y().isInverted()) {
-						drawInverted(point, model.isAscendingBefore(i));
+						drawInvertedLeft(point, model.isAscendingBefore(i));
+						if (!model.isEmptyAt(i + 1)) {
+							drawInvertedRight(point, model.isAscendingBefore(i));
+						}
 						lastY.setEmpty();
 
 					} else {
@@ -66,7 +68,23 @@ public class IntervalPath {
 		}
 	}
 
-	private void drawInverted(IntervalTuple point, boolean ascending) {
+	private void drawInvertedLeft(IntervalTuple point, boolean ascending) {
+		Interval x = view.toScreenIntervalX(point.x());
+		Interval y = view.toScreenIntervalY(point.y());
+		double xMiddle = x.getLow() + (x .getWidth() / 2);
+		double yLow = y.getLow() < view.getHeight()
+				? Math.max(0, y.getLow())
+				: view.getHeight();
+		if (ascending) {
+			if (yLow >= 0) {
+				gp.lineTo(xMiddle, 0);
+			} else if (yLow < view.getHeight()) {
+				gp.lineTo(xMiddle, view.getHeight());
+			}
+		}
+	}
+
+	private void drawInvertedRight(IntervalTuple point, boolean ascending) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
 		double xMiddle = x.getLow() + (x.getWidth() / 2);
@@ -75,15 +93,10 @@ public class IntervalPath {
 				: view.getHeight();
 		if (ascending) {
 			if (yLow > 0) {
-				Log.debug("ascending");
-				gp.lineTo(xMiddle, 0);
 				gp.moveTo(xMiddle, view.getHeight());
 				gp.lineTo(x.getHigh(), yLow);
 			}
 		} else if (yLow < view.getHeight()) {
-			Log.debug("descending");
-
-			gp.lineTo(xMiddle, view.getHeight());
 			gp.moveTo(xMiddle, 0);
 			gp.lineTo(x.getHigh(), yLow);
 		}
@@ -96,12 +109,13 @@ public class IntervalPath {
 	private void moveToCurveBegin(IntervalTuple point) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
+		boolean inverted = point.y().isInverted();
 		if (model.isAscendingBefore(point)) {
-			gp.moveTo(x.getLow(), y.getHigh());
-			gp.lineTo(x.getHigh(), y.getLow());
+			gp.moveTo(x.getLow(), inverted ? view.getHeight() : y.getLow());
+//			gp.lineTo(x.getHigh(), y.getLow());
 		} else {
-			gp.moveTo(x.getLow(), y.getLow());
-			gp.lineTo(x.getHigh(), y.getHigh());
+			gp.moveTo(x.getLow(), inverted ? 0: y.getHigh());
+//			gp.lineTo(x.getHigh(), y.getHigh());
 		}
 	}
 

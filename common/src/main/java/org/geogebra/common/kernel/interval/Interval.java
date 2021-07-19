@@ -298,6 +298,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 					setUndefined();
 				}
 			}
+			setInverted();
 		} else {
 			// [positive, positive]
 			return new Interval(RMath.divLow(1, high), RMath.divHigh(1, low));
