@@ -554,6 +554,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			handleCtrlDBackquote(isShiftDown);
 			consumed = true;
 			break;
+		default:
+			// do nothing
+			break;
 		}
 		return consumed;
 	}

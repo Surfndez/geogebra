@@ -324,7 +324,7 @@ public class ToolbarPanel extends FlowPanel
 		heading.add(close);
 	}
 
-	private void closeAnimation() {
+	public void closeAnimation() {
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent != null) {
 			dockParent.addStyleName("singlePanel");
@@ -369,7 +369,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
-	private void showOppositeView() {
+	public void showOppositeView() {
 		animateHeadingHeight(HEADING_HEIGHT, 0);
 		int viewId = App.VIEW_EUCLIDIAN;
 		if ((Perspective.GRAPHER_3D + "").equals(

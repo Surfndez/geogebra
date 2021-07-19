@@ -188,10 +188,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						|| event.getKeyCode() == GWTKeycodes.KEY_MINUS
 						|| event.getKeyCode() == GWTKeycodes.KEY_NUM_MINUS
 						|| event.getKeyCode() == GWTKeycodes.KEY_EQUALS) && event.getCtrlKey()) {
-					handleCtrlPlusAddSubtractMinusEquals(true, KeyCodes.translateGWTcode(event.getKeyCode()));
+					handleCtrlPlusAddSubtractMinusEquals(true,
+							KeyCodes.translateGWTcode(event.getKeyCode()));
 				}
 				if ((event.getKeyCode() == GWTKeycodes.KEY_D
-						|| event.getKeyCode() == GWTKeycodes.KEY_BACK_QUOTE) && event.getCtrlKey()) {
+						|| event.getKeyCode() == GWTKeycodes.KEY_BACK_QUOTE) && event
+						.getCtrlKey()) {
 					handleCtrlJQ(event.getShiftKey());
 				}
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
@@ -276,7 +278,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	public static boolean isControlKeyDown(NativeEvent event) {
+	private static boolean isControlKeyDown(NativeEvent event) {
 		return event.getCtrlKey()
 				|| (Browser.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
 	}

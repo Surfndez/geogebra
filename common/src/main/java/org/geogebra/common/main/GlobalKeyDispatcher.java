@@ -469,9 +469,15 @@ public abstract class GlobalKeyDispatcher {
 						app.getConfig().getForcedPerspective())) {
 					viewID = App.VIEW_EUCLIDIAN3D;
 				}
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(viewID),
-						viewID, false);
+				boolean showsEuclidianView = app.getGuiManager().showView(viewID);
+				if (showsEuclidianView) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(viewID),
+							viewID);
+				} else {
+					app.getGuiManager().closeFullscreenView();
+				}
+
 			} else {
 				app.getGuiManager().setShowView(
 						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
@@ -612,6 +618,7 @@ public abstract class GlobalKeyDispatcher {
 			// Under Ubuntu/Unity this will close all windows.
 		}
 	}
+
 	protected void handleCtrlF4(boolean isShiftDown) {
 		// File -> Exit
 		if (!isShiftDown) {

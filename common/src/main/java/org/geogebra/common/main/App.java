@@ -3962,6 +3962,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
+	/**
+	 * @return whether we are running suite
+	 */
 	public boolean isSuite() {
 		return false;
 	}
