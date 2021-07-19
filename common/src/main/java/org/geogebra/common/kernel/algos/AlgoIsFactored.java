@@ -74,6 +74,12 @@ public class AlgoIsFactored extends AlgoElement {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
+		PolyFunction polyFun = function.expandToPolyFunction(function.getExpression(), false, false);
+		int degree = polyFun.getDegree();
+		if (degree > 7) {
+			outputBoolean.setUndefinedProverOnly();
+			return;
+		}
 		fv = function.getFunctionVariable();
 		ExpressionNode node = function.getGeoFunction().getFunctionExpression();
 		if (node != null) {
@@ -217,11 +223,11 @@ public class AlgoIsFactored extends AlgoElement {
 		int numberOfRealRootsNoImaginaryPart = 0;
 		double[] realRootNoImaginaryPart = new double[realRoots.length];
 		for (int k = 0; k < solution.curRealRoots; k++) {
-			if (Math.abs(Double.parseDouble(nf.format(curComplexRoots[k])))== 0) {
+			if (Math.abs(Double.parseDouble(nf.format(curComplexRoots[k]))) == 0) {
 				numberOfRealRootsNoImaginaryPart += 1;
 				realRootNoImaginaryPart[k] = realRoots[k];
 			}
-			if (Math.abs(Double.parseDouble(nf.format(curComplexRoots[k])))!= 0) {
+			if (Math.abs(Double.parseDouble(nf.format(curComplexRoots[k]))) != 0) {
 				complexRootsZero = false;
 				break;
 			}
