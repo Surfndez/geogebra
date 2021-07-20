@@ -53,10 +53,11 @@ public class IntervalPath {
 				} else {
 					if (point.y().isInverted()) {
 						drawInvertedLeft(point, model.isAscendingBefore(i));
+						lastY.setEmpty();
 						if (!model.isEmptyAt(i + 1)) {
 							drawInvertedRight(point, model.isAscendingBefore(i));
+							lastY.set(point.y());
 						}
-						lastY.setEmpty();
 
 					} else {
 						plotInterval(lastY, point);
@@ -92,9 +93,9 @@ public class IntervalPath {
 				? Math.max(0, y.getLow())
 				: view.getHeight();
 		if (ascending) {
-			if (yLow > 0) {
+			if (y.getHigh() > 0) {
 				gp.moveTo(xMiddle, view.getHeight());
-				gp.lineTo(x.getHigh(), yLow);
+				gp.lineTo(x.getHigh(), y.getHigh());
 			}
 		} else if (yLow < view.getHeight()) {
 			gp.moveTo(xMiddle, 0);
