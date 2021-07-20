@@ -52,16 +52,17 @@ public class IntervalPath {
 					lastY.set(point.y());
 				} else {
 					if (point.y().isInverted()) {
-						drawInvertedLeft(point, model.isAscendingBefore(i));
+						completePathFromLeft(point, model.isAscendingBefore(i));
 						lastY.setEmpty();
 						if (!model.isEmptyAt(i + 1)) {
-							drawInvertedRight(point, model.isAscendingBefore(i));
-							lastY.set(point.y());
+							Interval y0 =
+									completePathFromRight(point, model.isAscendingBefore(i));
+							lastY.set(y0);
 						}
 
 					} else {
 						plotInterval(lastY, point);
-						lastY.set(point.y());
+						lastY.set(view.toScreenIntervalY(point.y()));
 					}
 				}
 			}
@@ -69,9 +70,10 @@ public class IntervalPath {
 		}
 	}
 
-	private void drawInvertedLeft(IntervalTuple point, boolean ascending) {
+	private void completePathFromLeft(IntervalTuple point, boolean ascending) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
+
 		double xMiddle = x.getLow() + (x .getWidth() / 2);
 		double yLow = y.getLow() < view.getHeight()
 				? Math.max(0, y.getLow())
@@ -85,7 +87,7 @@ public class IntervalPath {
 		}
 	}
 
-	private void drawInvertedRight(IntervalTuple point, boolean ascending) {
+	private Interval completePathFromRight(IntervalTuple point, boolean ascending) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
 		double xMiddle = x.getLow() + (x.getWidth() / 2);
@@ -95,12 +97,14 @@ public class IntervalPath {
 		if (ascending) {
 			if (y.getHigh() > 0) {
 				gp.moveTo(xMiddle, view.getHeight());
-				gp.lineTo(x.getHigh(), y.getHigh());
+				return new Interval(view.getHeight());
 			}
 		} else if (yLow < view.getHeight()) {
 			gp.moveTo(xMiddle, 0);
 			gp.lineTo(x.getHigh(), yLow);
+			return new Interval(yLow);
 		}
+		return null;
 	}
 
 	private boolean isMoveNeeded(IntervalTuple tuple) {
@@ -131,7 +135,7 @@ public class IntervalPath {
 	private void plotInterval(Interval lastY, IntervalTuple point) {
 		Interval x = view.toScreenIntervalX(point.x());
 		Interval y = view.toScreenIntervalY(point.y());
-		if (y.isGreaterThan(view.toScreenIntervalY(lastY))) {
+		if (y.isGreaterThan(lastY)) {
 			plotHigh(x, y);
 		} else {
 			plotLow(x, y);
