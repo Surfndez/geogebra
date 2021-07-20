@@ -154,22 +154,22 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 
 	public boolean isAscendingBefore(int index) {
-		if (index < 2 || list.get(index - 1).isEmpty()) {
+		if (index < 2 || get(index - 1).isEmpty()) {
 			return false;
 		}
-		Interval y1 = list.get(index - 2).y();
-		Interval y2 = list.get(index - 1).y();
+		Interval y1 = get(index - 2).y();
+		Interval y2 = get(index - 1).y();
 		boolean greaterThan = y2.isGreaterThan(y1);
 		Log.debug(y1 + " <? " + y2 + " asc: " + greaterThan);
 		return greaterThan;
 	}
 	public boolean isAscendingAfter(int index) {
-		if (index > list.size() -2 || list.get(index + 1).isEmpty()) {
+		if (index >= list.size() - 2 || list.get(index + 1).isEmpty()) {
 			return false;
 		}
-		Interval y1 = list.get(index + 1).y();
-		Interval y2 = list.get(index + 2).y();
-		boolean greaterThan = y2.isGreaterThan(y1);
+		Interval y1 = get(index + 1).y();
+		Interval y2 = get(index + 2).y();
+		boolean greaterThan = y2 != null && y2.isGreaterThan(y1);
 		Log.debug(y1 + " <? " + y2 + " asc: " + greaterThan);
 		return greaterThan;
 	}

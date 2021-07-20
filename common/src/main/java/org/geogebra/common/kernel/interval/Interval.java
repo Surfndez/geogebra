@@ -617,7 +617,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if this interval is greater than the other.
 	 */
 	public boolean isGreaterThan(Interval other) {
-		if (isEmpty() || other.isEmpty()) {
+		if (isEmpty() || other == null || other.isEmpty()) {
 			return false;
 		}
 		return high > other.high;
