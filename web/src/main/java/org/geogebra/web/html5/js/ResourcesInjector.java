@@ -42,9 +42,6 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
-
 		injectScss();
 		injectResourcesGUI(ae);
 
@@ -74,11 +71,13 @@ public class ResourcesInjector {
 	}
 
 	private static void injectScss() {
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
+		String cssPath = "web3d/sass";
+
+		StyleInjector.inject(cssPath, "reset");
+		StyleInjector.inject(cssPath, "web-styles-global");
+		StyleInjector.inject(cssPath, "layout");
+		StyleInjector.inject(cssPath, "ev-styles");
+		StyleInjector.inject(cssPath, "shared");
 	}
 
 	/**

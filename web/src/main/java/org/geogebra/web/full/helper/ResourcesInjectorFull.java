@@ -1,11 +1,7 @@
 package org.geogebra.web.full.helper;
 
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.css.MebisResources;
-import org.geogebra.web.full.css.StylesProvider;
-import org.geogebra.web.full.css.TextStyles;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.JavaScriptInjector;
@@ -21,51 +17,46 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
-	protected void injectResourcesGUI(AppletParameters ae) {
+	protected void injectResourcesGUI(AppletParameters parameters) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
-		StylesProvider stylesProvider = createStylesProvider(ae);
-		StyleInjector.inject(stylesProvider.mowStyle());
-		StyleInjector.inject(stylesProvider.mowToolbarStyle());
-		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
-		StyleInjector.inject(stylesProvider.openScreenStyle());
-		StyleInjector.inject(GuiResources.INSTANCE.fonts());
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+		String path = "web3d/sass";
+		String varyingPath = path + (isMebis(parameters) ? "/mebis" : "");
 
-		StyleInjector.inject(GuiResources.INSTANCE.modernStyle());
-		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.contextMenuStyles());
-		StyleInjector.inject(GuiResources.INSTANCE.tableViewStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
-		StyleInjector.inject(stylesProvider.componentStyles());
-		StyleInjector.inject(stylesProvider.dialogStylesScss());
-		StyleInjector.inject(stylesProvider.settingsStyleScss());
+		StyleInjector.inject(varyingPath, "mow");
+		StyleInjector.inject(varyingPath, "mow-toolbar");
+		StyleInjector.inject(varyingPath, "open-screen");
+		StyleInjector.inject(varyingPath, "component-styles");
+		StyleInjector.inject(varyingPath, "dialog-styles");
+		StyleInjector.inject(varyingPath, "settings-styles");
 
-		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
-
-		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
-		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
-		StyleInjector.inject(GuiResources.INSTANCE.evaluatorScss());
-		StyleInjector.inject(TextStyles.INSTANCE.textStyles());
-
-		StyleInjector.inject(GuiResources.INSTANCE.generalStyle());
-		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyle());
+		// StyleInjector.inject(path, KeyboardResources.INSTANCE.keyboardStyle());
+		// StyleInjector.inject(GuiResources.INSTANCE.fonts());
+		StyleInjector.inject(path, "spreadsheet");
+		StyleInjector.inject(path, "web-styles");
+		StyleInjector.inject(path, "av-styles");
+		StyleInjector.inject(path, "toolbar-styles");
+		StyleInjector.inject(path, "context-menu");
+		StyleInjector.inject(path, "tableview");
+		StyleInjector.inject(path, "menu-styles");
+		StyleInjector.inject(path, "popup-styles");
+		StyleInjector.inject(path, "perspectives-popup");
+		StyleInjector.inject(path, "snackbar");
+		StyleInjector.inject(path, "scientific-layout");
+		StyleInjector.inject(path, "evaluator-styles");
+		StyleInjector.inject(path, "text-styles");
+		StyleInjector.inject(path, "general");
+		StyleInjector.inject(path, "headerbar");
 
 		injectGreekFonts();
 	}
 
-	private StylesProvider createStylesProvider(AppletParameters ae) {
-		if ("mebis".equalsIgnoreCase(ae.getParamVendor())) {
-			return MebisResources.INSTANCE;
-		} else {
-			return GuiResources.INSTANCE;
-		}
+	private boolean isMebis(AppletParameters parameters) {
+		return "mebis".equalsIgnoreCase(parameters.getParamVendor());
 	}
 
 	public void injectGreekFonts() {
-		StyleInjector.inject(KeyboardResources.INSTANCE.greekFonts());
+		// StyleInjector.inject(KeyboardResources.INSTANCE.greekFonts());
 	}
 
 	@Override

@@ -80,7 +80,7 @@ ext.appHtml = { app, prerelease, offline = false ->
     def measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
-            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
+            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px'))
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
